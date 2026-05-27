@@ -1,58 +1,89 @@
-import Link from 'next/link'
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-black text-white">
-      <nav className="flex items-center justify-between px-8 py-6 max-w-6xl mx-auto">
-        <div className="text-xl font-bold tracking-tight">dealinno</div>
-        <a href="mailto:hello@dealinno.com" className="text-sm text-zinc-400 hover:text-white transition">Get early access →</a>
+    <main className="min-h-screen bg-[#080808] text-white">
+      <nav className="flex items-center justify-between px-6 py-5 border-b border-white/8">
+        <div className="text-lg font-semibold tracking-tight">dealinno</div>
+        <a href="mailto:hello@dealinno.com" className="text-sm text-white/40 hover:text-white/70 transition-colors">
+          Contact
+        </a>
       </nav>
-      <section className="max-w-4xl mx-auto px-8 pt-24 pb-16 text-center">
-        <div className="inline-flex items-center gap-2 bg-zinc-900 border border-zinc-800 rounded-full px-4 py-1.5 text-sm text-zinc-400 mb-8">
-          <span className="w-1.5 h-1.5 rounded-full bg-green-500 inline-block"></span>
-          Now accepting early access
+
+      <div className="max-w-2xl mx-auto px-6 pt-28 pb-20 text-center">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5 text-xs text-white/50 mb-10">
+          <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+          Early access — limited spots
         </div>
-        <h1 className="text-5xl md:text-7xl font-bold tracking-tight leading-tight mb-6">Close deals while<br />you sleep</h1>
-        <p className="text-xl text-zinc-400 max-w-2xl mx-auto mb-12 leading-relaxed">Dealinno watches your inbox, drafts your scheduling replies, captures your meetings, and sends proposals — before you even open the email.</p>
-        <form className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto" action="https://formspree.io/f/placeholder" method="POST">
-          <input type="email" name="email" placeholder="your@email.com" required className="flex-1 bg-zinc-900 border border-zinc-700 rounded-lg px-4 py-3 text-white placeholder-zinc-500 focus:outline-none focus:border-zinc-500" />
-          <button type="submit" className="bg-white text-black font-semibold rounded-lg px-6 py-3 hover:bg-zinc-100 transition">Get early access</button>
+
+        <h1 className="text-5xl sm:text-6xl font-bold tracking-tight leading-[1.1] mb-6">
+          Close deals<br />while you sleep
+        </h1>
+        <p className="text-lg text-white/50 max-w-lg mx-auto mb-12 leading-relaxed">
+          Dealinno drafts your scheduling emails, records sales calls, and drops a 
+          polished proposal into your Gmail drafts 60 seconds after the call ends — 
+          without you doing anything.
+        </p>
+
+        <form
+          action="https://formspree.io/f/placeholder"
+          method="POST"
+          className="flex flex-col sm:flex-row gap-3 max-w-sm mx-auto"
+        >
+          <input
+            type="email"
+            name="email"
+            required
+            placeholder="your@email.com"
+            className="flex-1 px-4 py-3 rounded-xl bg-white/8 border border-white/10 text-white placeholder-white/25 focus:outline-none focus:border-white/25 text-sm"
+          />
+          <button
+            type="submit"
+            className="px-6 py-3 rounded-xl bg-white text-black font-semibold text-sm hover:bg-white/90 transition-colors whitespace-nowrap"
+          >
+            Get early access
+          </button>
         </form>
-        <p className="text-zinc-600 text-sm mt-4">No credit card. No visible bot joining your calls.</p>
-      </section>
-      <section className="max-w-5xl mx-auto px-8 py-24">
-        <h2 className="text-3xl font-bold text-center mb-16">The full sales loop, automated</h2>
-        <div className="grid md:grid-cols-3 gap-8">
-          <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-8">
-            <div className="text-zinc-600 text-sm font-mono mb-4">01</div>
-            <h3 className="text-xl font-semibold mb-3">Scheduling, handled</h3>
-            <p className="text-zinc-400 leading-relaxed">Connect Gmail once. When a prospect emails about a meeting, Dealinno drafts the reply with your Calendly link in your voice. You approve in one click.</p>
-          </div>
-          <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-8">
-            <div className="text-zinc-600 text-sm font-mono mb-4">02</div>
-            <h3 className="text-xl font-semibold mb-3">Meetings, captured</h3>
-            <p className="text-zinc-400 leading-relaxed">No visible bot. Dealinno captures audio locally on your device — fully compliant, fully silent. Live transcript and AI assistance in a private overlay only you can see.</p>
-          </div>
-          <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-8">
-            <div className="text-zinc-600 text-sm font-mono mb-4">03</div>
-            <h3 className="text-xl font-semibold mb-3">Proposals, drafted</h3>
-            <p className="text-zinc-400 leading-relaxed">60 seconds after your call ends, a proposal is in your Gmail drafts referencing exactly what the prospect said. Review, hit send. Done.</p>
-          </div>
+        <p className="text-xs text-white/25 mt-4">No spam. Unsubscribe anytime.</p>
+      </div>
+
+      <div className="max-w-4xl mx-auto px-6 pb-24">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          {[
+            {
+              icon: "📬",
+              title: "Auto-draft scheduling replies",
+              desc: "Detects scheduling emails and drafts replies with your Calendly link and availability — before you open the thread.",
+            },
+            {
+              icon: "🎙️",
+              title: "Silent meeting capture",
+              desc: "Records and transcribes every sales call locally on your device. No visible bots. No awkward consent warnings to prospects.",
+            },
+            {
+              icon: "📄",
+              title: "Proposals in 60 seconds",
+              desc: "When the call ends, a proposal referencing exactly what the prospect said lands in your Gmail drafts — ready to send.",
+            },
+          ].map((f) => (
+            <div key={f.title} className="p-6 rounded-2xl border border-white/8 bg-white/3 hover:bg-white/5 transition-colors">
+              <div className="text-2xl mb-4">{f.icon}</div>
+              <h3 className="font-semibold mb-2 text-sm">{f.title}</h3>
+              <p className="text-sm text-white/40 leading-relaxed">{f.desc}</p>
+            </div>
+          ))}
         </div>
-      </section>
-      <section className="max-w-4xl mx-auto px-8 py-16 text-center border-t border-zinc-900">
-        <p className="text-zinc-500 text-sm mb-6">Integrates with what you already use</p>
-        <div className="flex flex-wrap justify-center gap-6 text-zinc-500 text-sm">
-          <span>Gmail</span><span>·</span><span>Google Calendar</span><span>·</span><span>Zoom</span><span>·</span><span>Google Meet</span><span>·</span><span>Calendly</span>
-        </div>
-      </section>
-      <footer className="border-t border-zinc-900 py-8 px-8 max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-zinc-600 text-sm">
-        <span>© 2026 Dealinno</span>
-        <div className="flex gap-6">
-          <Link href="/privacy" className="hover:text-white transition">Privacy Policy</Link>
-          <Link href="/terms" className="hover:text-white transition">Terms</Link>
+      </div>
+
+      <footer className="border-t border-white/8 px-6 py-8">
+        <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/25">
+          <div>© 2026 Dealinno. All rights reserved.</div>
+          <div className="flex gap-6">
+            <Link href="/privacy" className="hover:text-white/50 transition-colors">Privacy Policy</Link>
+            <Link href="/terms" className="hover:text-white/50 transition-colors">Terms</Link>
+          </div>
         </div>
       </footer>
     </main>
-  )
+  );
 }
