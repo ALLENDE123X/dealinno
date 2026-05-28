@@ -71,17 +71,16 @@ describe('processEmail Inngest Job', () => {
     })
 
     vi.mocked(classifyEmail).mockResolvedValueOnce({
-      should_draft: true,
-      intent: 'scheduling',
-      confidence: 0.9,
-      key_points: ['Schedule call tomorrow'],
-      suggested_tone: 'casual',
+      isSchedulingEmail: true,
+      emailType: 'scheduling',
+      confidence: 'high',
+      reasoning: 'Schedule call tomorrow',
     })
 
     vi.mocked(draftEmailReply).mockResolvedValueOnce({
       subject: 'Re: Meeting follow up',
-      body_text: 'Hi, sure! Tomorrow at 2pm works.',
-      body_html: '<p>Hi, sure! Tomorrow at 2pm works.</p>',
+      body: 'Hi, sure! Tomorrow at 2pm works.',
+      toEmail: 'client@example.com'
     })
 
     vi.mocked(createDraft).mockResolvedValueOnce({
