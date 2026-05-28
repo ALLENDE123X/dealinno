@@ -1,21 +1,24 @@
 import OpenAI from 'openai'
+import { z } from 'zod'
 import { logger } from '@/lib/logger'
 import type { EmailClassification } from './classify-email'
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY || 'dummy_key_for_build' })
+const openai = new OpenAI()
 
-export interface DraftResult {
-  subject: string
-  body_text: string
-  body_html: string
-}
+export const DraftEmailSchema = z.object({
+  subject: z.string(),
+  body: z.string(),
+  toEmail: z.string()
+})
+
+export type DraftResult = z.infer<typeof DraftEmailSchema>
 
 export async function draftEmailReply(
   originalEmail: { subject: string; from: string; body: string },
   classification: EmailClassification,
   user: { name: string; email: string },
   userId: string
-): Promise<DraftResult | null> {
+): Promise<DraftResult> {
   const start = Date.now()
 
   try {
@@ -30,17 +33,16 @@ export async function draftEmailReply(
 Rules:
 - Never mention AI or that you're an assistant
 - Never use "I hope this email finds you well", "Please don't hesitate", "Best regards" clichés  
-- Match the suggested tone exactly
-- Reply only with the email body, not subject
+- Match the suggested tone exactly (default to confident if unsure)
 - Keep it concise — under 150 words unless the situation demands more
 - Sound human and specific, not templated
 
-Return this exact JSON:
+Return this exact JSON shape:
 {
-  "subject": "Re: [original subject with Re: prefix]",
-  "body_text": "plain text email body only, no greeting header",
-  "body_html": "same content as HTML with <p> tags"
-}`,
+  "subject": "Re: [original subject]",
+  "body": "plain text email body only, no greeting header",
+  "toEmail": "the email address of the original sender you are replying to"
+}`
         },
         {
           role: 'user',
@@ -50,10 +52,10 @@ Subject: ${originalEmail.subject}
 Body: ${originalEmail.body}
 
 Classification:
-- Intent: ${classification.intent}
-- Key points to address: ${classification.key_points.join(', ')}
-- Tone: ${classification.suggested_tone}
-- My name: ${user.name}`,
+- Intent: ${classification.emailType}
+- Confidence: ${classification.confidence}
+- Reasoning: ${classification.reasoning}
+- My name: ${user.name}`
         },
       ],
       max_tokens: 800,
@@ -63,18 +65,23 @@ Classification:
     const raw = response.choices[0]?.message?.content
     if (!raw) throw new Error('Empty response from OpenAI')
 
-    const result = JSON.parse(raw) as DraftResult
+    const result = DraftEmailSchema.parse(JSON.parse(raw))
 
     logger.info({
       userId,
       action: 'draft_email',
-      intent: classification.intent,
+      intent: classification.emailType,
       duration_ms: Date.now() - start,
     })
 
     return result
   } catch (error) {
-    logger.error({ userId, action: 'draft_email', error, duration_ms: Date.now() - start })
-    return null
+    logger.error({
+      userId,
+      action: 'draft_email_error',
+      error: error instanceof Error ? error.message : 'Unknown error',
+      duration_ms: Date.now() - start
+    })
+    throw error
   }
 }
