@@ -3,7 +3,7 @@ import { z } from 'zod'
 import { logger } from '@/lib/logger'
 import type { EmailClassification } from './classify-email'
 
-const openai = new OpenAI()
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY || 'dummy_for_build' })
 
 export const DraftEmailSchema = z.object({
   subject: z.string(),
