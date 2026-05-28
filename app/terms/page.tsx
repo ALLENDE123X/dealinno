@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export const metadata = {
   title: "Terms of Service — Dealinno",
 };
@@ -6,7 +8,7 @@ export default function Terms() {
   return (
     <main className="min-h-screen bg-[#080808] text-white">
       <nav className="flex items-center px-6 py-5 border-b border-white/8">
-        <a href="/" className="text-lg font-semibold tracking-tight">dealinno</a>
+        <Link href="/" className="text-lg font-semibold tracking-tight">dealinno</Link>
       </nav>
       <div className="max-w-2xl mx-auto px-6 py-20">
         <h1 className="text-4xl font-bold mb-2">Terms of Service</h1>

@@ -69,10 +69,14 @@ Never parallelize:
 5. Read the relevant Section (4, 5, 8, 10) for the specific task
 
 ## After Completing Any Task
-1. Verify the thing you built actually works (hit the route, check the migration, etc.)
-2. Commit with format: `type(scope): description`
-3. Push to main
-4. Update ARCHITECTURE.md if you made a non-obvious technical choice
+1. Verify the thing you built actually works
+2. Write required tests (see AGENTS.md testing table)
+3. Commit everything to your feature branch
+4. Open a PR to main with title format: `[Phase N] type: description`
+5. Wait for CI to pass — do not merge until green
+6. Merge the PR
+7. Update ARCHITECTURE.md if you made a non-obvious technical choice
+8. Remind the user: "Tell Claude what we shipped so the spec gets updated."
 
 ## Current Phase
 Phase 1 — Email Agent. No Electron, no transcription. Web app only.
