@@ -1,22 +1,22 @@
 import OpenAI from 'openai'
+import { z } from 'zod'
 import { logger } from '@/lib/logger'
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY || 'dummy_key_for_build' })
+const openai = new OpenAI()
 
-export interface EmailClassification {
-  should_draft: boolean
-  intent: 'scheduling' | 'follow_up' | 'proposal_request' | 'check_in' | 'other'
-  confidence: number
-  key_points: string[]
-  suggested_tone: 'formal' | 'casual' | 'direct'
-}
+export const EmailClassificationSchema = z.object({
+  isSchedulingEmail: z.boolean(),
+  emailType: z.string(),
+  confidence: z.enum(['high', 'medium', 'low']),
+  reasoning: z.string()
+})
+
+export type EmailClassification = z.infer<typeof EmailClassificationSchema>
 
 export async function classifyEmail(
-  subject: string,
-  from: string,
-  body: string,
+  emailBody: string,
   userId: string
-): Promise<EmailClassification | null> {
+): Promise<EmailClassification> {
   const start = Date.now()
 
   try {
@@ -26,55 +26,45 @@ export async function classifyEmail(
       messages: [
         {
           role: 'system',
-          content: `You are an email classifier for a sales professional. Analyze the email and return JSON only.
-Classify the intent and determine if a reply should be drafted.
+          content: `You are an AI assistant that classifies whether an email is related to scheduling or managing a sales meeting.
+You must return a JSON object with the following fields:
+- isSchedulingEmail: boolean (true if it's a meeting request, follow-up, reschedule, cancellation, or anything requiring a calendar event or proposal)
+- emailType: string (a short descriptor like "meeting_request", "reschedule", "follow_up", "irrelevant", etc.)
+- confidence: "high", "medium", or "low"
+- reasoning: string (a short explanation of your reasoning)
 
-Rules:
-- If confidence < 0.65 → set should_draft = false
-- If intent = "other" → set should_draft = false
-- Never draft replies to newsletters, marketing emails, or no-reply addresses
-- Never draft replies to emails the user sent themselves
-
-Return this exact JSON shape:
-{
-  "should_draft": boolean,
-  "intent": "scheduling" | "follow_up" | "proposal_request" | "check_in" | "other",
-  "confidence": number between 0.0 and 1.0,
-  "key_points": ["2-4 key points from the email"],
-  "suggested_tone": "formal" | "casual" | "direct"
-}`,
+Output ONLY valid JSON matching this schema.`
         },
         {
           role: 'user',
-          content: `From: ${from}\nSubject: ${subject}\n\n${body}`,
-        },
+          content: `Email Content:\n\n${emailBody}`
+        }
       ],
-      max_tokens: 500,
       temperature: 0.1,
     })
 
     const raw = response.choices[0]?.message?.content
     if (!raw) throw new Error('Empty response from OpenAI')
 
-    const result = JSON.parse(raw) as EmailClassification
-
-    // Enforce rules in case model doesn't comply
-    if (result.confidence < 0.65 || result.intent === 'other') {
-      result.should_draft = false
-    }
+    const result = EmailClassificationSchema.parse(JSON.parse(raw))
 
     logger.info({
       userId,
       action: 'classify_email',
-      intent: result.intent,
-      should_draft: result.should_draft,
+      isSchedulingEmail: result.isSchedulingEmail,
+      emailType: result.emailType,
       confidence: result.confidence,
       duration_ms: Date.now() - start,
     })
 
     return result
   } catch (error) {
-    logger.error({ userId, action: 'classify_email', error, duration_ms: Date.now() - start })
-    return null
+    logger.error({
+      userId,
+      action: 'classify_email_error',
+      error: error instanceof Error ? error.message : 'Unknown error',
+      duration_ms: Date.now() - start
+    })
+    throw error
   }
 }
