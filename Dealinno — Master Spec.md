@@ -1,4 +1,4 @@
-﻿DEALINNO — MASTER SPEC
+DEALINNO — MASTER SPEC
 Last updated: May 27, 2026
 ════════════════════════════════════════════════════════════════════
 
@@ -984,23 +984,22 @@ CODEBASE
 - lib/db/schema.ts: all 4 tables written (users, meetings, email_drafts, documents) ✅
 - lib/logger.ts: Pino + Axiom configured ✅
 - lib/ratelimit.ts: Upstash sliding window rate limiter configured ✅
-- lib/gmail.ts: exists, state unknown — needs audit
-- lib/google.ts: exists, state unknown — needs audit
+- lib/gmail.ts: audited, type-safe and refactored ✅
+- lib/google.ts: audited, auto-refresh active ✅
 - drizzle.config.ts: configured, points to DATABASE_URL ✅
 - middleware.ts: dashboard routes protected ✅
 - sentry.client/server/edge.config.ts: exist ✅
 - inngest/client.ts: exists ✅
-- inngest/functions/: empty — jobs not written yet ❌
+- inngest/functions/: process-email, renew-gmail-watch Inngest functions written and verified ✅
 - app/api/health: exists ✅
-- app/api/auth: exists, state unknown
-- app/api/inngest: exists, state unknown
-- app/api/gmail: exists, state unknown
-- app/api/drafts: exists, state unknown
+- app/api/auth: NextAuth route configured ✅
+- app/api/inngest: Inngest route serving all background jobs ✅
+- app/api/webhooks/gmail: Google OIDC-verified webhook receiver active ✅
+- app/api/gmail/watch: Gmail inbox watch setup route active ✅
 - app/page.tsx: landing page complete ✅
 - AGENTS.md, GEMINI.md, ARCHITECTURE.md: created in repo root ✅
-- Migration NOT run yet — npx drizzle-kit push still needed ❌
-
-
+- Migration: Drizzle migration pushed successfully to Supabase ✅
+- Testing & Auditing: Vitest (JSDOM), Playwright E2E, and eslint-plugin-security linter fully configured ✅
 
 
 ════════════════════════════════════════════════════════════════════
@@ -1008,22 +1007,13 @@ SECTION 13 — NEXT 3 TASKS
 ════════════════════════════════════════════════════════════════════
 
 
-[ ] 1. Run npx drizzle-kit push to migrate schema to Supabase. Audit app/api/auth, app/api/inngest, app/api/gmail, app/api/drafts — read each, fix or rebuild as needed. — install Sentry, Pino+Axiom, Upstash, Zod, Vercel Analytics (full list in Section 14.10). Get tokens from sentry.io, axiom.co, upstash.com. Create lib/logger.ts, lib/ratelimit.ts, add /api/health route.
+[ ] 1. Review and Merge Pull Request #1 (Testing Framework and Security Audits) to master.
 
 
-[ ] 2. Write inngest/functions/process-email.ts — classify email with GPT-4o mini, draft reply, create Gmail draft, save to email_drafts table. Follow Section 8 data flow exactly. — swap Stripe live → test keys in .env.local. Get DATABASE_URL from Supabase.
-        Fix NEXTAUTH_URL to https://dealinno.vercel.app.
+[ ] 2. Build the Dashboard UI (feat/dashboard-ui branch) containing the DraftCard list and review/approval flows for pending drafts (Week 3 milestone).
 
 
-[ ] 2. Install all missing npm dependencies (full list in Section 6).
-        Set up Drizzle config, write schema.ts (Section 4), run npx drizzle-kit push.
-        Audit + fix app/api/auth and app/api/inngest route files.
-
-
-[ ] 3. Wire up Gmail Pub/Sub webhook → Inngest → test end-to-end: send an email to yourself, verify Pub/Sub fires webhook, Inngest job runs, draft appears in Gmail.
-        Fix NextAuth sign-in flow end-to-end.
-        On sign-in: copy tokens to users table, call /api/gmail/watch.
-        Verify Gmail watch set up correctly (check historyId saves to DB).
+[ ] 3. Setup Stripe paywall gating the dashboard behind a $29/month subscription check, and implement the Stripe subscription webhook processor.
 
 
 
@@ -1033,6 +1023,9 @@ SHIPPED LOG
 ════════════════════════════════════════════════════════════════════
 
 
+May 28 — Migrated schema to Supabase, audited all OAuth token sync and watch routes.
+May 28 — Implemented Gmail Pub/Sub webhook receiver and process-email Inngest job (Week 2 features complete).
+May 28 — Configured Vitest unit testing, React Testing Library component tests, Playwright E2E tests, and ESLint security linter.
 May 27 — Named product Dealinno, bought domain, set up Vercel
 May 27 — Scaffolded Next.js codebase
 May 27 — Configured Google Cloud OAuth (branding, scopes, client)
