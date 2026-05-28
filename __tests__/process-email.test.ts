@@ -78,8 +78,9 @@ describe('processEmail Inngest Job', () => {
     })
 
     vi.mocked(draftEmailReply).mockResolvedValueOnce({
-      subject: 'Re: Meeting follow up',
-      body: 'Hi, sure! Tomorrow at 2pm works.',
+      subject: 'Re: Test email',
+      body_text: 'Test draft body',
+      body_html: '<p>Test draft body</p>',
       toEmail: 'client@example.com'
     })
 

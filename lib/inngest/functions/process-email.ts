@@ -100,8 +100,8 @@ export const processEmail = inngest.createFunction(
               gmailDraftId: gmailDraft?.id ?? null,
               subject: draft.subject,
               toAddresses,
-              bodyHtml: draft.body, // The new DraftEmail schema only returns body
-              bodyText: draft.body,
+              bodyHtml: draft.body_html,
+              bodyText: draft.body_text,
               classification: classification.emailType,
               classificationConfidence: confidenceMap[classification.confidence] ?? 0.5,
               keyPoints: [classification.reasoning], // map reasoning to keyPoints array
