@@ -1,8 +1,8 @@
-import { drizzle } from 'drizzle-orm/postgres-js'
+import { drizzle, type PostgresJsDatabase } from 'drizzle-orm/postgres-js'
 import postgres from 'postgres'
 import * as schema from './schema'
 
-let db: any
+let db: PostgresJsDatabase<typeof schema>
 
 if (process.env.DATABASE_URL) {
   const client = postgres(process.env.DATABASE_URL, { prepare: false })
@@ -14,6 +14,7 @@ if (process.env.DATABASE_URL) {
   const dummyClient = postgres('postgresql://localhost:5432/postgres', { prepare: false })
   const dummyDb = drizzle(dummyClient, { schema })
 
+  // Use Proxy to handle database operations lazily when DATABASE_URL is available
   db = new Proxy(dummyDb, {
     get(target, prop) {
       // Delegate symbols, constructor, and then-able checks to the dummy database to avoid crashing
@@ -22,7 +23,7 @@ if (process.env.DATABASE_URL) {
         !process.env.DATABASE_URL &&
         (typeof prop === 'symbol' || prop === 'constructor' || prop === 'then')
       ) {
-        return (target as any)[prop]
+        return Reflect.get(target, prop)
       }
 
       if (!process.env.DATABASE_URL) {
@@ -30,10 +31,11 @@ if (process.env.DATABASE_URL) {
       }
       const client = postgres(process.env.DATABASE_URL, { prepare: false })
       const actualDb = drizzle(client, { schema })
-      return (actualDb as any)[prop]
+      return Reflect.get(actualDb, prop)
     }
-  })
+  }) as PostgresJsDatabase<typeof schema>
 }
 
 export { db }
 export type DbType = typeof db
+

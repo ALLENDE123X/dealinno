@@ -1,4 +1,4 @@
-﻿DEALINNO — MASTER SPEC
+DEALINNO — MASTER SPEC
 Last updated: May 27, 2026
 ════════════════════════════════════════════════════════════════════
 

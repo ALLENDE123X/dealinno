@@ -1,4 +1,4 @@
-import { google } from 'googleapis'
+import { google, type gmail_v1 } from 'googleapis'
 import { logger } from './logger'
 
 export function getGmailClient(accessToken: string) {
@@ -62,17 +62,17 @@ function getHeader(headers: Array<{ name?: string | null; value?: string | null 
   return headers.find(h => h.name?.toLowerCase() === name.toLowerCase())?.value ?? ''
 }
 
-function extractBody(payload: any): string {
+function extractBody(payload: gmail_v1.Schema$MessagePart | null | undefined): string {
   if (!payload) return ''
 
   if (payload.body?.data) return decodeBase64(payload.body.data)
 
   if (payload.parts) {
     // Prefer text/plain
-    const textPart = payload.parts.find((p: any) => p.mimeType === 'text/plain')
+    const textPart = payload.parts.find((p) => p.mimeType === 'text/plain')
     if (textPart?.body?.data) return decodeBase64(textPart.body.data)
     // Fall back to text/html stripped
-    const htmlPart = payload.parts.find((p: any) => p.mimeType === 'text/html')
+    const htmlPart = payload.parts.find((p) => p.mimeType === 'text/html')
     if (htmlPart?.body?.data) return decodeBase64(htmlPart.body.data).replace(/<[^>]+>/g, '')
     // Recurse into nested parts
     for (const part of payload.parts) {

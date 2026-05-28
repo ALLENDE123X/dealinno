@@ -106,13 +106,38 @@ before writing any feature code.
 
 ---
 
-## Git Rules
-- Commit after every working atomic unit
-- Format: `type(scope): description` e.g. `feat(auth): NextAuth sign-in + token sync`
-- Types: feat, fix, chore, refactor, test
-- Always verify the specific thing works before committing
-- Commit to main directly (no feature branches unless explicitly told otherwise)
+## Git & PR Rules
+- Main branch is PROTECTED. Never commit directly to main.
+- Every feature or fix gets its own branch: `feature/scope-description` or `fix/scope-description`
+- Branch naming: `feature/phase1-email-classify`, `fix/draft-mime-encoding`, `chore/install-vitest`
+- One feature = one branch = one PR. Keep PRs small and focused.
+- PRs cannot be merged to main until ALL tests pass in CI (GitHub Actions)
 - After completing any task involving a technical choice, append a decision entry to ARCHITECTURE.md
+
+## Testing Requirements (enforced in CI — PR will not merge without these)
+
+| Change type | Required test |
+|---|---|
+| New API route | Vitest integration test hitting the route with mock auth |
+| New Inngest job | Vitest unit test for each step function |
+| UI component or page | Playwright E2E test asserting key elements and interactions |
+| New lib/ utility | Vitest unit test |
+| Config / chore / deps | No test required |
+
+Test file locations:
+- Unit/integration tests: `__tests__/` adjacent to the file being tested, or `tests/unit/`
+- E2E/UI tests: `tests/e2e/`
+- Test command: `npm test` (Vitest)
+- E2E command: `npx playwright test`
+
+Do not skip tests to ship faster. A PR without required tests will fail CI and cannot merge.
+If you are unsure what to test, write the simplest test that proves the feature works.
+
+## Commit message format (within a feature branch)
+`type(scope): description` e.g. `feat(inngest): add classify step to process-email job`
+
+## PR title format
+`[Phase 1] feat: Gmail Pub/Sub webhook receiver`
 
 ---
 
