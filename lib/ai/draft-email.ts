@@ -1,6 +1,7 @@
 import OpenAI from 'openai'
 import { z } from 'zod'
 import { logger } from '@/lib/logger'
+import * as Sentry from '@sentry/nextjs'
 import type { EmailClassification } from './classify-email'
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY || 'dummy_for_build' })
@@ -76,6 +77,7 @@ Classification:
 
     return result
   } catch (error) {
+    Sentry.captureException(error, { extra: { userId, action: 'draft_email' } })
     logger.error({
       userId,
       action: 'draft_email_error',
