@@ -31,9 +31,15 @@ Agent 3 writes the types and Zod schemas. These are independent and can run in p
 Bad decomposition: Agent 1 writes the route and Agent 2 writes the job that the route calls
 — these are coupled, Agent 2 must wait.
 
-PR size rule: a feature must result in <400 lines changed across <6 files.
-If a feature would exceed this, split it into two separate PRs before starting.
-The user will not review a 1000-line PR. Keep it small and focused.
+PR size limits — HARD RULES, not guidelines:
+- Feature PRs: <300 lines changed, <5 files touched
+- Fix PRs: <150 lines changed
+- Infrastructure/chore PRs (deps, config): <500 lines, but only one per session
+- If a feature would exceed these limits, split it into multiple PRs before writing a single line
+- The user will not review a 1000-line PR. A PR they can't review is a PR that won't merge.
+
+Before starting: count the expected files and estimate line count.
+If estimate exceeds the limit, stop and split the feature first.
 
 ### STEP 2 — Deploy subagents
 Dispatch parallel agents via Manager View. Each agent gets:

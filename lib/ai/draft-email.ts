@@ -2,7 +2,7 @@ import OpenAI from 'openai'
 import { logger } from '@/lib/logger'
 import type { EmailClassification } from './classify-email'
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY || 'dummy_key_for_build' })
 
 export interface DraftResult {
   subject: string
