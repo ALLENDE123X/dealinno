@@ -86,8 +86,8 @@ export const processEmail = inngest.createFunction(
             const gmailDraft = await createDraft(accessToken, {
               to: toAddresses,
               subject: draft.subject,
-              bodyText: draft.body_text,
-              bodyHtml: draft.body_html,
+              bodyText: draft.body,
+              bodyHtml: draft.body,
               threadId,
             })
 
