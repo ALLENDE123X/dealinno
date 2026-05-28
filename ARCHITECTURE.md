@@ -63,3 +63,13 @@ Decision: Pino (logger) + Axiom (log ingestion/storage).
 Alternatives: Winston + Logtail, console.log, Datadog (expensive), Sentry alone.
 Reason: Pino is the fastest Node.js logger with minimal overhead. Axiom free tier is generous (unlimited ingestion up to 500GB/month retention). Together they give structured JSON logs with a good query UI. Sentry is for errors, Axiom is for operational logs — different jobs.
 Consequences: Two observability tools to manage. Sentry for exceptions, Axiom for logs. Don't conflate them.
+
+---
+
+## 2026-05-28 — Testing Stack, Security Audits & PR Gates
+Context: Need structured testing and static security checks to ensure code quality and prevent regressions in production without blocking development velocity.
+Decision: Use Vitest + JSDOM for unit/component tests, Playwright for E2E browser integration tests, and eslint-plugin-security for static code audits. Enforce checking these rules before PR merges on Git branches.
+Alternatives: Jest (heavier config, slower than Vitest), React Testing Library inside Playwright (too heavy for fast component feedback), SonarQube (complex setup for early stage).
+Reason: Vitest uses the same config and transforms as Next.js/Webpack/Vite, making it fast and lightweight with alias support. Playwright runs E2E flows against a live local server instance. E2E tests are configured in the E2E directory to separate them from fast unit testing runs.
+Consequences: Development requires running validation suites locally. GitHub Actions PR pipeline enforces green checks on the new `feat/testing-framework` branch and all future feature branches.
+
