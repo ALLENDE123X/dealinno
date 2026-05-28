@@ -50,9 +50,9 @@ Subject: ${originalEmail.subject}
 Body: ${originalEmail.body}
 
 Classification:
-- Intent: ${classification.intent}
-- Key points to address: ${classification.key_points.join(', ')}
-- Tone: ${classification.suggested_tone}
+- Intent: ${classification.emailType}
+- Reasoning: ${classification.reasoning}
+- Confidence: ${classification.confidence}
 - My name: ${user.name}`,
         },
       ],
@@ -68,7 +68,7 @@ Classification:
     logger.info({
       userId,
       action: 'draft_email',
-      intent: classification.intent,
+      intent: classification.emailType,
       duration_ms: Date.now() - start,
     })
 
