@@ -2,7 +2,7 @@ import OpenAI from 'openai'
 import { z } from 'zod'
 import { logger } from '@/lib/logger'
 
-const openai = new OpenAI()
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY || 'dummy_for_build' })
 
 export const EmailClassificationSchema = z.object({
   isSchedulingEmail: z.boolean(),
