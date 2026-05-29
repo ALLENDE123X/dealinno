@@ -86,8 +86,8 @@ export const processEmail = inngest.createFunction(
             const gmailDraft = await createDraft(accessToken, {
               to: toAddresses,
               subject: draft.subject,
-              bodyText: draft.body_text,
-              bodyHtml: draft.body_html,
+              bodyText: draft.body,
+              bodyHtml: `<p>${draft.body.replace(/\n/g, '</p><p>')}</p>`,
               threadId,
             })
 
@@ -100,8 +100,8 @@ export const processEmail = inngest.createFunction(
               gmailDraftId: gmailDraft?.id ?? null,
               subject: draft.subject,
               toAddresses,
-              bodyHtml: draft.body_html,
-              bodyText: draft.body_text,
+              bodyHtml: `<p>${draft.body.replace(/\n/g, '</p><p>')}</p>`,
+              bodyText: draft.body,
               classification: classification.emailType,
               classificationConfidence: confidenceMap[classification.confidence] ?? 0.5,
               keyPoints: [classification.reasoning], // map reasoning to keyPoints array
