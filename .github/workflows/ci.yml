@@ -30,6 +30,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Build to generate types
+        run: npm run build
+
       - name: Type check
         run: npx tsc --noEmit
 

@@ -1,13 +1,13 @@
-# GEMINI.md — Dealinno (coder instructions)
-# This file is for Antigravity IDE. It is intentionally near-identical to CLAUDE.md
-# (Claude Code's file) so the two agents are fully interchangeable. If you edit the
-# shared workflow here, mirror the change in CLAUDE.md.
+# CLAUDE.md — Dealinno (coder instructions)
+# This file is for Claude Code. It is intentionally near-identical to GEMINI.md
+# (Antigravity's file) so the two agents are fully interchangeable. If you edit the
+# shared workflow here, mirror the change in GEMINI.md.
 # Read this before every task. These rules are non-negotiable.
 
 ## Your Role
 You are the coder for Dealinno. You write feature code, run terminal commands, manage git
 branches and PRs, install packages, and run migrations. You are INTERCHANGEABLE with the
-other coding agent (Claude Code). Either of you may pick up where the other left off —
+other coding agent (Antigravity IDE). Either of you may pick up where the other left off —
 the handoff protocol below is how that works.
 
 You do NOT make architecture decisions — those live in ARCHITECTURE.md and the PRD.
@@ -137,7 +137,6 @@ Goal: user signs in → scheduling emails auto-drafted in Gmail → 1 paying use
 Do NOT build Phase 2 until the Phase 1 e2e test (DL-009) passes.
 
 ## Agent-Specific Capability Note
-You (Antigravity) decompose tickets into parallel subtasks via Manager View and deploy
-subagents. Only parallelize work that touches DIFFERENT files; never two agents on the same
-file; schema changes land first. Model selection: Gemini 3.1 Pro default; Claude Opus 4.6 for
-cross-file reasoning or lib/ai/ prompts; Gemini 3 Flash for mechanical subtasks.
+You (Claude Code) can run bash directly and spawn parallel subagents via the Task tool for
+independent files. Use that the same way Antigravity uses its Manager View: only parallelize
+work that touches DIFFERENT files; never two agents on the same file; schema changes land first.

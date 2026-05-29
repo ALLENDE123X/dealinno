@@ -67,8 +67,8 @@ export const processEmail = inngest.createFunction(
             if (/no.?reply|unsubscribe|newsletter|noreply/i.test(from)) continue
 
             // Classify the email
-            const classification = await classifyEmail(subject, from, body, userId)
-            if (!classification || !classification.should_draft) {
+            const classification = await classifyEmail(`From: ${from}\nSubject: ${subject}\n\n${body}`, userId)
+            if (!classification || !classification.isSchedulingEmail) {
               logger.info({ userId, messageId, action: 'skip_email', reason: 'not_actionable' })
               continue
             }
@@ -92,6 +92,7 @@ export const processEmail = inngest.createFunction(
             })
 
             // Save to database
+            const confidenceMap: Record<string, number> = { high: 0.9, medium: 0.5, low: 0.1 }
             const [savedDraft] = await db.insert(emailDrafts).values({
               userId,
               gmailThreadId: threadId,
@@ -101,9 +102,9 @@ export const processEmail = inngest.createFunction(
               toAddresses,
               bodyHtml: draft.body_html,
               bodyText: draft.body_text,
-              classification: classification.intent,
-              classificationConfidence: classification.confidence,
-              keyPoints: classification.key_points,
+              classification: classification.emailType,
+              classificationConfidence: confidenceMap[classification.confidence] ?? 0.5,
+              keyPoints: [classification.reasoning], // map reasoning to keyPoints array
               status: 'pending_review',
             }).returning()
 
@@ -111,10 +112,10 @@ export const processEmail = inngest.createFunction(
               userId,
               draftId: savedDraft.id,
               action: 'email_draft_created',
-              intent: classification.intent,
+              intent: classification.emailType,
             })
 
-            processed.push({ draftId: savedDraft.id, intent: classification.intent })
+            processed.push({ draftId: savedDraft.id, intent: classification.emailType })
           } catch (msgError) {
             // Don't let one message failure kill the whole batch
             Sentry.captureException(msgError, { extra: { userId, msgId: msg.id } })

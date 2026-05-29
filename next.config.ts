@@ -10,5 +10,4 @@ export default withSentryConfig(nextConfig, {
   org: "dealinno",
   project: "nextjs",
   widenClientFileUpload: true,
-  disableLogger: true,
 });
