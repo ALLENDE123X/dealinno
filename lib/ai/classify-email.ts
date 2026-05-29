@@ -1,6 +1,7 @@
 import OpenAI from 'openai'
 import { z } from 'zod'
 import { logger } from '@/lib/logger'
+import * as Sentry from '@sentry/nextjs'
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY || 'dummy_for_build' })
 
@@ -59,6 +60,7 @@ Output ONLY valid JSON matching this schema.`
 
     return result
   } catch (error) {
+    Sentry.captureException(error, { extra: { userId, action: 'classify_email' } })
     logger.error({
       userId,
       action: 'classify_email_error',
