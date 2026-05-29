@@ -84,11 +84,12 @@ export const processEmail = inngest.createFunction(
 
             // Create Gmail draft
             const gmailDraft = await createDraft(accessToken, {
-              to: toAddresses,
+              to: [draft.toEmail],
               subject: draft.subject,
               bodyText: draft.body,
               bodyHtml: `<p>${draft.body.replace(/\n/g, '</p><p>')}</p>`,
               threadId,
+              inReplyTo: messageId,
             })
 
             // Save to database
@@ -99,7 +100,7 @@ export const processEmail = inngest.createFunction(
               gmailMessageId: messageId,
               gmailDraftId: gmailDraft?.id ?? null,
               subject: draft.subject,
-              toAddresses,
+              toAddresses: [draft.toEmail],
               bodyHtml: `<p>${draft.body.replace(/\n/g, '</p><p>')}</p>`,
               bodyText: draft.body,
               classification: classification.emailType,
