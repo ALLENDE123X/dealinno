@@ -74,6 +74,24 @@ Section 4 (schema), Section 5 (file structure), Section 8 (data flows), Section 
 - Styling: Tailwind CSS + shadcn/ui
 - UI components: 21st.dev Magic MCP (query before writing any component from scratch)
 
+## MCP Stack — Available to All Agents
+
+Both Claude Desktop and Antigravity have access to these MCP servers. Use them actively.
+
+| MCP | What to use it for |
+|-----|--------------------|
+| github | Read/write repo files, open PRs, manage issues |
+| google-docs | Read/update the PRD Google Doc |
+| context7 | Look up live docs for any library before using its API |
+| magicuidesign-mcp | Get animated React components (marquee, bento grid, animated list, etc.) — query before writing animation/effects code from scratch |
+| shadcn | Browse, search, and install shadcn/ui components — use this to get the exact install command and confirm a component exists before adding it |
+| 21st.dev (free tier) | Semantic search across thousands of real component patterns + SVG icon search |
+
+### How to use them in practice
+- Before writing any new component: check magicuidesign-mcp and shadcn first
+- Before using any library API: use context7 to pull current docs
+- When adding a UI element that needs an icon: use 21st.dev SVG icon search
+
 ---
 
 ## Design System — NON-NEGOTIABLE
