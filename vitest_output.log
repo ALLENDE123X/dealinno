@@ -1,0 +1,84 @@
+
+> dealinno@0.1.0 test
+> vitest run --run
+
+
+[1m[30m[46m RUN [49m[39m[22m [36mv4.1.7 [39m[90m/Users/pranavlende/Desktop/Dev/dealinno[39m
+
+[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Unhandled Errors [49m[22m[31m⎯⎯⎯⎯⎯⎯[39m
+[31m[1m
+Vitest caught 5 unhandled errors during the test run.
+This might cause false positive tests. Resolve unhandled errors to make sure your tests are not affected.[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Unhandled Error [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+[31m[1mError[22m: [vitest-pool]: Failed to start forks worker for test files /Users/pranavlende/Desktop/Dev/dealinno/__tests__/privacy.test.tsx.[39m
+[90m [2m❯[22m node_modules/vitest/dist/chunks/cli-api.C6CiCDM3.js:[2m3449:94[22m[39m
+[90m [2m❯[22m Pool.schedule node_modules/vitest/dist/chunks/cli-api.C6CiCDM3.js:[2m3449:5[22m[39m
+
+[31m[1mCaused by: Error[22m: [vitest-pool-runner]: Timeout waiting for worker to respond[39m
+[90m [2m❯[22m Timeout.<anonymous> node_modules/vitest/dist/chunks/cli-api.C6CiCDM3.js:[2m3029:58[22m[39m
+[90m [2m❯[22m listOnTimeout node:internal/timers:[2m608:17[22m[39m
+[90m [2m❯[22m processTimers node:internal/timers:[2m543:7[22m[39m
+
+
+[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Unhandled Error [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+[31m[1mError[22m: [vitest-pool]: Failed to start forks worker for test files /Users/pranavlende/Desktop/Dev/dealinno/__tests__/gmail-webhook.test.ts.[39m
+[90m [2m❯[22m node_modules/vitest/dist/chunks/cli-api.C6CiCDM3.js:[2m3449:94[22m[39m
+[90m [2m❯[22m runNextTicks node:internal/process/task_queues:[2m65:5[22m[39m
+[90m [2m❯[22m listOnTimeout node:internal/timers:[2m569:9[22m[39m
+[90m [2m❯[22m processTimers node:internal/timers:[2m543:7[22m[39m
+[90m [2m❯[22m Pool.schedule node_modules/vitest/dist/chunks/cli-api.C6CiCDM3.js:[2m3449:5[22m[39m
+
+[31m[1mCaused by: Error[22m: [vitest-pool-runner]: Timeout waiting for worker to respond[39m
+[90m [2m❯[22m Timeout.<anonymous> node_modules/vitest/dist/chunks/cli-api.C6CiCDM3.js:[2m3029:58[22m[39m
+[90m [2m❯[22m listOnTimeout node:internal/timers:[2m608:17[22m[39m
+[90m [2m❯[22m processTimers node:internal/timers:[2m543:7[22m[39m
+
+
+[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Unhandled Error [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+[31m[1mError[22m: [vitest-pool]: Failed to start forks worker for test files /Users/pranavlende/Desktop/Dev/dealinno/__tests__/process-email.test.ts.[39m
+[90m [2m❯[22m node_modules/vitest/dist/chunks/cli-api.C6CiCDM3.js:[2m3449:94[22m[39m
+[90m [2m❯[22m runNextTicks node:internal/process/task_queues:[2m65:5[22m[39m
+[90m [2m❯[22m listOnTimeout node:internal/timers:[2m569:9[22m[39m
+[90m [2m❯[22m processTimers node:internal/timers:[2m543:7[22m[39m
+[90m [2m❯[22m Pool.schedule node_modules/vitest/dist/chunks/cli-api.C6CiCDM3.js:[2m3449:5[22m[39m
+
+[31m[1mCaused by: Error[22m: [vitest-pool-runner]: Timeout waiting for worker to respond[39m
+[90m [2m❯[22m Timeout.<anonymous> node_modules/vitest/dist/chunks/cli-api.C6CiCDM3.js:[2m3029:58[22m[39m
+[90m [2m❯[22m listOnTimeout node:internal/timers:[2m608:17[22m[39m
+[90m [2m❯[22m processTimers node:internal/timers:[2m543:7[22m[39m
+
+
+[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Unhandled Error [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+[31m[1mError[22m: [vitest-pool]: Failed to start forks worker for test files /Users/pranavlende/Desktop/Dev/dealinno/__tests__/renew-gmail-watch.test.ts.[39m
+[90m [2m❯[22m node_modules/vitest/dist/chunks/cli-api.C6CiCDM3.js:[2m3449:94[22m[39m
+[90m [2m❯[22m runNextTicks node:internal/process/task_queues:[2m65:5[22m[39m
+[90m [2m❯[22m listOnTimeout node:internal/timers:[2m569:9[22m[39m
+[90m [2m❯[22m processTimers node:internal/timers:[2m543:7[22m[39m
+[90m [2m❯[22m Pool.schedule node_modules/vitest/dist/chunks/cli-api.C6CiCDM3.js:[2m3449:5[22m[39m
+
+[31m[1mCaused by: Error[22m: [vitest-pool-runner]: Timeout waiting for worker to respond[39m
+[90m [2m❯[22m Timeout.<anonymous> node_modules/vitest/dist/chunks/cli-api.C6CiCDM3.js:[2m3029:58[22m[39m
+[90m [2m❯[22m listOnTimeout node:internal/timers:[2m608:17[22m[39m
+[90m [2m❯[22m processTimers node:internal/timers:[2m543:7[22m[39m
+
+
+[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Unhandled Error [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+[31m[1mError[22m: [vitest-pool]: Failed to start forks worker for test files /Users/pranavlende/Desktop/Dev/dealinno/__tests__/lib/ai/classify-email.test.ts.[39m
+[90m [2m❯[22m node_modules/vitest/dist/chunks/cli-api.C6CiCDM3.js:[2m3449:94[22m[39m
+[90m [2m❯[22m Pool.schedule node_modules/vitest/dist/chunks/cli-api.C6CiCDM3.js:[2m3449:5[22m[39m
+
+[31m[1mCaused by: Error[22m: [vitest-pool-runner]: Timeout waiting for worker to respond[39m
+[90m [2m❯[22m Timeout.<anonymous> node_modules/vitest/dist/chunks/cli-api.C6CiCDM3.js:[2m3029:58[22m[39m
+[90m [2m❯[22m listOnTimeout node:internal/timers:[2m608:17[22m[39m
+[90m [2m❯[22m processTimers node:internal/timers:[2m543:7[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[39m
+
+
+[2m Test Files [22m [2mno tests[22m
+[2m      Tests [22m [2mno tests[22m
+[2m     Errors [22m [1m[31m5 errors[39m[22m
+[2m   Start at [22m 01:47:20
+[2m   Duration [22m 63.01s[2m (transform 0ms, setup 0ms, import 0ms, tests 0ms, environment 0ms)[22m
+

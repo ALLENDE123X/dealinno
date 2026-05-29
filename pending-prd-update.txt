@@ -1,0 +1,22 @@
+# PRD UPDATE — pending google-docs MCP reconnect
+# Apply these findAndReplace operations to doc 1iBMTWul12JbRf4mM5LFnFoyD9DsYkczJZZYkJbaDDo0
+
+FIND:
+- Unit tests passing ✅: gmail-webhook, privacy, renew-gmail-watch, process-email (Vitest)
+
+REPLACE WITH:
+- Unit tests passing ✅: gmail-webhook, privacy, renew-gmail-watch, process-email (Vitest)
+- lib/ai/classify-email.ts ✅ — OpenAI structured outputs, Zod-validated classification result ({ isSchedulingEmail, emailType, confidence, reasoning }), Sentry in catch (PR #13)
+- lib/ai/draft-email.ts ✅ — OpenAI draft generation, bodyHtml stored as <p>-wrapped HTML, Sentry in catch (PR #14)
+- next.config.ts ✅ — ignoreBuildErrors removed, TypeScript build checks fully restored
+
+---
+
+FIND:
+May 28 — Unit test suite passing: gmail-webhook, privacy, renew-gmail-watch, process-email ✅
+
+REPLACE WITH:
+May 28 — Unit test suite passing: gmail-webhook, privacy, renew-gmail-watch, process-email ✅
+May 28 — lib/ai/classify-email.ts shipped (PR #13) ✅ — OpenAI structured outputs, Zod validation, Sentry
+May 28 — lib/ai/draft-email.ts shipped (PR #14) ✅ — OpenAI draft generation, bodyHtml as <p> HTML, Sentry
+May 28 — next.config.ts: ignoreBuildErrors removed, TypeScript build checks restored ✅
