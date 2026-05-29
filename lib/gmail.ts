@@ -186,3 +186,32 @@ export async function createDraft(
   }
 }
 
+export async function sendDraft(accessToken: string, draftId: string) {
+  try {
+    const gmail = getGmailClient(accessToken)
+    const res = await gmail.users.drafts.send({
+      userId: 'me',
+      requestBody: { id: draftId },
+    })
+    logger.info({ draftId }, 'Gmail draft successfully sent')
+    return res.data
+  } catch (error) {
+    logger.error({ error, draftId }, 'Failed to send Gmail draft')
+    throw error
+  }
+}
+
+export async function deleteDraft(accessToken: string, draftId: string) {
+  try {
+    const gmail = getGmailClient(accessToken)
+    await gmail.users.drafts.delete({
+      userId: 'me',
+      id: draftId,
+    })
+    logger.info({ draftId }, 'Gmail draft successfully deleted')
+    return true
+  } catch (error) {
+    logger.error({ error, draftId }, 'Failed to delete Gmail draft')
+    throw error
+  }
+}

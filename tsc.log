@@ -1,0 +1,3 @@
+lib/inngest/functions/process-email.ts(89,31): error TS2339: Property 'body_text' does not exist on type '{ subject: string; body: string; toEmail: string; }'.
+lib/inngest/functions/process-email.ts(90,31): error TS2339: Property 'body_html' does not exist on type '{ subject: string; body: string; toEmail: string; }'.
+next.config.ts(8,3): error TS2353: Object literal may only specify known properties, and 'eslint' does not exist in type 'NextConfig'.
