@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 
-export function DraftCard({ draft }: { draft: any }) {
+export function DraftCard({ draft }: { draft: { id: string, subject: string, toAddresses: string[], bodyText: string } }) {
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
 
@@ -22,9 +22,10 @@ export function DraftCard({ draft }: { draft: any }) {
         throw new Error(data.error || 'Action failed')
       }
       router.refresh()
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const msg = error instanceof Error ? error.message : 'Unknown error'
       console.error(error)
-      alert(`Failed to ${action} draft: ${error.message}`)
+      alert(`Failed to ${action} draft: ${msg}`)
     } finally {
       setIsLoading(false)
     }
