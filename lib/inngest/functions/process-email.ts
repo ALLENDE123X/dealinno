@@ -59,7 +59,7 @@ export const processEmail = inngest.createFunction(
             const fullMessage = await getMessage(accessToken, msg.id)
             if (!fullMessage) continue
 
-            const { subject, from, body, threadId, messageId, toAddresses } = fullMessage
+            const { subject, from, body, threadId, messageId } = fullMessage
 
             // Skip emails sent by us
             if (from.includes(user.email ?? '')) continue
@@ -83,12 +83,14 @@ export const processEmail = inngest.createFunction(
             if (!draft) continue
 
             // Create Gmail draft
+            const bodyHtml = `<p>${draft.body.replace(/\n/g, '</p><p>')}</p>`
             const gmailDraft = await createDraft(accessToken, {
-              to: toAddresses,
+              to: [draft.toEmail],
               subject: draft.subject,
               bodyText: draft.body,
-              bodyHtml: `<p>${draft.body.replace(/\n/g, '</p><p>')}</p>`,
+              bodyHtml,
               threadId,
+              inReplyTo: messageId,
             })
 
             // Save to database
@@ -99,8 +101,8 @@ export const processEmail = inngest.createFunction(
               gmailMessageId: messageId,
               gmailDraftId: gmailDraft?.id ?? null,
               subject: draft.subject,
-              toAddresses,
-              bodyHtml: `<p>${draft.body.replace(/\n/g, '</p><p>')}</p>`,
+              toAddresses: [draft.toEmail],
+              bodyHtml,
               bodyText: draft.body,
               classification: classification.emailType,
               classificationConfidence: confidenceMap[classification.confidence] ?? 0.5,
