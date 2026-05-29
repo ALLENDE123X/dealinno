@@ -162,6 +162,22 @@ The landing page IS the design system. Match it exactly in all new UI:
 - Logger: lib/logger.ts | Rate limiter: lib/ratelimit.ts
 - API routes: app/api/*/route.ts
 
+## MCP Servers — Use These Actively
+
+Before writing code, check the relevant MCP:
+
+| Task | MCP to use |
+|------|-----------|
+| Need a shadcn Button/Card/Dialog/Table | shadcn MCP → search and get install command |
+| Need animation (fade, slide, marquee, bento grid) | magicuidesign-mcp → search components |
+| Unsure about a library API or props | context7 → pull current docs |
+| Need an icon | 21st.dev → SVG icon search |
+| Read/update PRD | google-docs MCP |
+| Create/update GitHub issues or PRs | github MCP |
+
+Never write a component from scratch when a shadcn or Magic UI equivalent exists.
+Always use context7 before reaching for a library API you are not 100% sure about.
+
 ## Commands
 ```bash
 npm run dev          # start local server
