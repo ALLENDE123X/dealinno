@@ -2,8 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { PATCH } from '@/app/api/drafts/[id]/route'
 import { auth } from '@/auth'
 import { limitRequest } from '@/lib/ratelimit'
-import { db } from '@/lib/db'
-import { sendDraft, deleteDraft } from '@/lib/gmail'
+import { sendDraft } from '@/lib/gmail'
 
 vi.mock('@/auth', () => ({ auth: vi.fn() }))
 vi.mock('@/lib/ratelimit', () => ({ limitRequest: vi.fn() }))
@@ -59,16 +58,16 @@ describe('PATCH /api/drafts/[id]', () => {
   })
 
   it('should return 429 if rate limited', async () => {
-    vi.mocked(auth).mockResolvedValueOnce({ user: { id: 'user-1' } } as any)
-    vi.mocked(limitRequest).mockResolvedValueOnce({ success: false } as any)
+    vi.mocked(auth).mockResolvedValueOnce({ user: { id: 'user-1' } } as never)
+    vi.mocked(limitRequest).mockResolvedValueOnce({ success: false } as never)
     const req = new Request('http://localhost/api/drafts/1', { method: 'PATCH', body: JSON.stringify({ action: 'approve' }) })
     const res = await PATCH(req, { params: Promise.resolve({ id: '1' }) })
     expect(res.status).toBe(429)
   })
 
   it('should process approve action successfully', async () => {
-    vi.mocked(auth).mockResolvedValueOnce({ user: { id: 'user-1' } } as any)
-    vi.mocked(limitRequest).mockResolvedValueOnce({ success: true } as any)
+    vi.mocked(auth).mockResolvedValueOnce({ user: { id: 'user-1' } } as never)
+    vi.mocked(limitRequest).mockResolvedValueOnce({ success: true } as never)
     const req = new Request('http://localhost/api/drafts/1', { method: 'PATCH', body: JSON.stringify({ action: 'approve' }) })
     const res = await PATCH(req, { params: Promise.resolve({ id: '1' }) })
     expect(res.status).toBe(200)
